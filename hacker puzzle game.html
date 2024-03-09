@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>ZIM -  - Code Creativity</title>
+        <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-GSHN2BZVKW"></script> -->
+        <script src="https://zimjs.org/cdn/nft/00/zim_physics.js"></script>
+        <script src="https://d309knd7es5f10.cloudfront.net/createjs_1.1_min.js"></script>
+<script src="https://d309knd7es5f10.cloudfront.net/zim_9.2.0.js"></script>
+<script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-GSHN2BZVKW');</script>
+
+        <script type="module">
+            import zim from "https://zimjs.org/cdn/016/zim_three";
+          
+
+// // each example will import the interface widget
+import {makeInterface} from "https://zimjs.com/zim/interface";
+            
+            
+const frame =new Frame(FIT, 1024, 768, light, dark, ready,["userName.png","gf_Madimi+One"]);
+            function ready() {
+                // Given F, S, W, H or frame, stage, stageW, stageH
+
+                let stage = frame.stage;
+    let stageW = frame.width;
+    let stageH = frame.height;
+
+    function page1(){
+
+     // FRONT OF PANEL
+    
+  
+    
+    const menu = new TextureActive({
+        width:1529,
+        height:854,
+        color:white.toAlpha(.8),
+        corner:26,
+        // backingOrbit:false // if not wanting to orbitControl on backing
+    })
+        .addTo();
+
+        new Pic("assets/bg.png").center(menu);
+
+        const file=new Pic("assets/file.png").center(menu);
+
+        file.on("click", () => {
+            file.off();
+            file.removeFrom();
+            new Pic("assets/popUp.png").sca(1.5).center(menu);
+            const LogIn=new Pic("assets/logIn.png").sca(1.1).pos(0,180,CENTER,BOTTOM,menu);
+
+            LogIn.on("click", () => {
+                LogIn.off();
+                LogIn.removeFrom();
+                page2();
+            
+});
+
+});
+
+
+    const backing = new TextureActive({
+        width:menu.width,
+        height:menu.height,
+        color:black,
+        corner:20,
+        animated:false,
+        interactive:false
+    }).addTo();
+    TextureActive.makeBacking(backing.width, backing.height).addTo(backing); // CANVAS WINDOW
+   
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // THREEJS
+  
+
+    const three = new Three({
+        width:window.innerWidth, 
+        height:window.innerHeight, 
+        cameraPosition:new THREE.Vector3(0,0,500),
+        textureActive:true
+    });
+
+    const renderer = three.renderer;
+    const scene = three.scene;
+    const camera = three.camera;
+
+    // SKYBOX
+    const skyTexture = new THREE.TextureLoader().load("assets/skybox.jpeg");
+    const skyBoxGeometry = new THREE.SphereGeometry(100000, 32, 32);
+    const skyBoxMaterial = new THREE.MeshBasicMaterial({map:skyTexture, side:THREE.BackSide});
+    const skyBox = new THREE.Mesh(skyBoxGeometry, skyBoxMaterial);
+    scene.add(skyBox);
+
+    // CONTROLS
+    const controls = new OrbitControls(camera, three.canvas);
+
+
+    // TEXTUREACTIVES
+   
+
+    const textureActives = new TextureActives([menu, backing], THREE, three, renderer, scene, camera, controls, 1, 0, 1000);
+
+    // can capture raydown, raymove, rayup, rayover and rayout
+    textureActives.on("raymove", e=>{
+        // zog(e.intersect.distance);
+    });
+
+
+    const canvasWindow = three.makePanel(menu, textureActives, null, 50)
+    scene.add(canvasWindow);
+
+   
+    const canvasWindowBacking = three.makePanel(backing, textureActives, null, -50, .5) // transparent and alpha  
+    scene.add(canvasWindowBacking);
+    canvasWindowBacking.rotation.y = 180*RAD; // flip it around the other way (RAD is ZIM constant for converting, DEG is the otherway)
+    
+
+    let fps; const fpsT = Ticker.add(()=>{fps = Ticker.getFPS();});
+    timeout(2, ()=>{if (fps < 50) {Ticker.setFPS(30);}; Ticker.remove(fpsT);});
+
+    
+
+
+}
+
+page1();
+
+function page2(){
+
+
+    STYLE = {borderColor:black, borderWidth:5, once:true}
+                //const panel = new TextureActive(500,500);
+
+
+                //page1
+                const panel = new TextureActive({width:500,height:500,corner:30,color:pink});//alow both format
+                const bg3= new Pic("assets/bg3.png",500,500).reg(CENTER).center(panel);
+
+              
+                STYLE = {borderColor:dark, borderWidth:2};
+
+                //ins
+const frontIns = new Pic("assets/ins.png");
+const backIns = new Container({width:175, height:175, angle:1});
+new Pic("assets/back1.png").center(backIns);
+const cardIns = new Flipper(frontIns, backIns).sca(1.04).pos(135,162,LEFT,TOP,panel);
+
+//Email
+const frontEmail = new Pic("assets/gmail.png");
+const backEmail = new Container({width:175, height:175, angle:1});
+new Pic("assets/back2.png").center(backEmail);
+const cardEmail = new Flipper(frontEmail, backEmail).sca(1.04).pos(132,162,RIGHT,TOP,panel);
+
+
+//Album
+const frontAlbum = new Pic("assets/album.png");
+const backAlbum = new Container({width:175, height:175, angle:1});
+new Pic("assets/back3.png").center(backAlbum);
+const cardAlbum = new Flipper(frontAlbum, backAlbum).pos(135,126,LEFT,BOTTOM,panel);
+
+//Whatsapp
+const frontWhatsapp = new Pic("assets/whatsapp.png");
+const backWhatsapp = new Container({width:175, height:175, angle:1});
+new Pic("assets/back4.png").center(backWhatsapp);
+const cardWhatsapp = new Flipper(frontWhatsapp, backWhatsapp).pos(132,126,RIGHT,BOTTOM,panel);
+
+//53,40
+
+
+
+
+
+
+//————————————————————————————————————————————————————————————————————————————————————————
+                //page2
+
+                const panel2 = new TextureActive({width:500,height:500,corner:30,color:pink});//alow both format
+
+             
+                const bg222= new Pic("assets/bg6.png",500,500).reg(CENTER).center(panel2);
+
+                const search1 = new Pic("assets/search-1.png").pos(43,65,LEFT,TOP).addTo(panel2);
+                const search2 = new Pic("assets/search-2.png").pos(40,65,RIGHT,TOP).addTo(panel2);
+                const search3 = new Pic("assets/search-3.png").pos(25,195,LEFT,TOP).addTo(panel2);
+                const search4 = new Pic("assets/search-4.png").pos(195,226,LEFT,TOP).addTo(panel2);
+                const search5 = new Pic("assets/search-5.png").pos(21,200,RIGHT,TOP).addTo(panel2);
+                const search6 = new Pic("assets/search-6.png").pos(142,30,LEFT,BOTTOM).addTo(panel2);
+                const search7 = new Pic("assets/search-7.png").pos(25,40,RIGHT,BOTTOM).addTo(panel2);
+
+
+ 
+
+    
+
+                search1.on("click", () => {
+                    new Pic("assets/guard1.png").reg(CENTER).center(search1).mov(10,10)
+                    .animate({
+                        props:{scale:1.2},
+                        time:.7,
+                        rewind:true
+                    });
+
+});
+
+search2.on("click", () => {
+                    new Pic("assets/guard1.png").reg(CENTER).center(search2).mov(2,20).animate({
+                        props:{scale:1.2},
+                        time:.7,
+                        rewind:true
+                    });
+
+
+});
+search3.on("click", () => {
+                    new Pic("assets/unlock.png").reg(CENTER).center(search3).mov(50,30)
+                    .animate({
+                        props:{scale:1.2},
+                        time:.7,
+                        rewind:true
+                    });
+
+
+});
+
+search4.on("click", () => {
+                    new Pic("assets/guard1.png").reg(CENTER).center(search4).mov(10,10)
+                    .animate({
+                        props:{scale:1.2},
+                        time:.7,
+                        rewind:true
+                    });
+
+
+});
+search5.on("click", () => {
+                    new Pic("assets/unlock.png").reg(CENTER).center(search5)
+                    .animate({
+                        props:{scale:1.2},
+                        time:.7,
+                        rewind:true
+                    });
+
+
+});
+          
+search6.on("click", () => {
+                    new Pic("assets/guard1.png").reg(CENTER).center(search6).animate({
+                        props:{scale:1.2},
+                        time:.7,
+                        rewind:true
+                    });
+
+
+});
+search7.on("click", () => {
+                    new Pic("assets/guard1.png").reg(CENTER).center(search7).animate({
+                        props:{scale:1.2},
+                        time:.7,
+                        rewind:true
+                    });
+
+
+});
+
+
+
+            //————————————————————————————————————————————————————————————————————————————————————————
+
+//page2
+
+const panel3 = new TextureActive({width:500,height:500,corner:30,color:pink});//alow both format
+
+const bg1= new Pic("assets/bg1.png",500,500).reg(CENTER).center(panel3);
+
+
+               new Scrambler(chop(new Pic("userName.png",380,380),3,3)).reg(CENTER).pos(0,65,CENTER,BOTTOM,panel3);
+
+
+              
+           
+
+
+                 
+                  //————————————————————————————————————————————————————————————————————————————————————————
+                  //page4
+                  const panel4 = new TextureActive({width:500,height:500,corner:30,color:pink});//alow both format
+
+                  const bg2= new Pic("assets/bg2.png",500,500).reg(CENTER).center(panel4);
+                  
+
+                  const pumpkins = new Container(W, H).addTo(panel4).drag();
+
+// make circles stay on the stage completely
+// use rand(min, max) instead of rand(max) which defaults to a min of 0
+const r = 30;
+const num = 90;
+
+loop(num, ()=>{
+    new Circle(r, [yellow,blue,orange], [pink,blue,red], 3)
+        .loc(rand(r, W-r), rand(r, H-r), pumpkins);
+})
+const candle = new Pic("assets/virus.png").center(panel4)
+    .drag();
+
+let alone = false;
+let count = 0;
+while (!alone) {
+    count++;
+    if (count > 1000) break;
+
+    alone = pumpkins.loop(pumpkin => {
+        if (pumpkin.hitTestCircleRect(candle)) {
+            zog("move candle") 
+            candle.loc(rand(0,W-candle.width),rand(0,H-candle.height),panel4);
+            return false; // break
+        }
+    });
+}
+
+
+
+// center an emitter on the stage
+
+
+
+candle.on("pressmove", ()=>{
+
+    pumpkins.loop(pumpkin =>{
+
+
+if (pumpkin.hitTestCircleRect(candle) && pumpkin.color == orange) {    
+               
+    pumpkin.color = [yellow,white,green];
+    
+
+    const emitter = new Emitter({
+     
+        obj:new Poly({min:7, max:23},{min:5,max:8} ,.6,[yellow,white,pink,blue]),
+        // startPaused:true
+    }).center(panel4).loc(pumpkin).mov(0,-r).spurt(10);
+
+    pumpkin.borderColor = darker;
+   
+}
+
+});
+
+
+    pumpkins.loop(pumpkin =>{
+
+
+if (pumpkin.hitTestCircleRect(candle) && pumpkin.color == yellow || pumpkin.color == blue) {    
+               
+    pumpkin.color = [yellow,white,green];
+    
+    const emitter = new Emitter({
+       
+        obj:new Circle({min:3, max:19}, [yellow,white,pink,blue], darker, 2),
+        // startPaused:true
+    }).center(panel4).loc(pumpkin).mov(0,-r).spurt(10);
+
+    pumpkin.borderColor = darker;
+   
+}
+
+});
+
+
+    
+});
+
+
+const bg22= new Pic("assets/bg2-2.png",500,500).reg(CENTER).center(panel4).top();
+   //————————————————————————————————————————————————————————————————————————————————————————
+                    //page4
+
+                    const panel5 = new TextureActive({width:500,height:500,corner:30,color:blue});
+
+                    const bg5= new Pic("assets/bg5.png",500,500).reg(CENTER).center(panel5);
+
+                     //eye
+    const LeftEye=new Circle(15,"#09D1AF",null,0).pos(130,122,RIGHT,TOP,panel5).ord(-2)
+        .addTo(panel5);	
+    const RightEye=new Circle(15,"#09D1AF",null,0).pos(290,160,RIGHT,TOP,panel5).ord(-2)
+    .addTo(panel5);	
+
+       
+
+    const points =[[75.5,45.3,0,0,3.5,5,-3.5,-5],[126.4,34,0,0,-24.2,-20.5,7.9,6.7,"free"],[103.1,52.5,0,0,7.8,-3.1,-7.8,3.1],[56,62,0,0,19.6,-2.6,-4.7,0.7],[82.7,13.5,0,0,-17.2,5.7,17.2,-5.7],[117.6,14.7,0,0,-12.3,-2.4,12.3,2.4],[127.7,-26.6,0,0,-32.7,-13.4,32.7,13.4],[148.8,110.7,0,0,-7.9,-3,3.1,1.2],[177.8,113.4,0,0,-12.2,5.9,6.2,-3],[193.8,94.9,0,0,-0.7,13.5,0.7,-12],[175.4,-11.9,0,0,-22,41.9,22,-41.9],[253.6,-16,0,0,-11.9,-14.1,2.9,3.5],[198.1,31,0,0,55.3,0.3,-16.6,0],[217.9,4.6,0,0,-41.3,1.3,22.7,-0.7],[267.2,84,0,0,-1.5,-42.3,1.3,34.6],[241,158.3,0,0,22.1,-10.2,-22.1,10.2],[199.6,135,0,0,8.9,11.9,-3.7,-4.9],[148.6,153.5,0,0,-5.2,-18.1,5.2,18.1],[199,151.7,0,0,-13.2,-7.5,13.2,7.5],[185.5,180,0,0,10.9,-7.9,-8.7,6.4],[153.4,171.8,0,0,9,13.3,-3.4,-5],[186.3,165.4,0,0,-14,-8.2,7.6,4.4],[187.9,223.3,0,0,13.8,-18.4,-4.9,6.6],[94.7,195.5,0,0,22.6,42.6,-58,-109,"straight"],[-31.9,100.6,0,0,1.6,1.2,-76.6,-57.3]];
+   
+    const path0riginal =  new Squiggle({
+		points:points,
+		interactive:false, // remove or set to true to allow user to change with path
+		thickness:16,		
+		color:"#F73182"
+	})
+const Rpoints = reversePoints(path0riginal.points);
+
+
+
+const pathPlane = new Squiggle({
+		points:Rpoints,
+		interactive:false, // remove or set to true to allow user to change with path
+		thickness:16,		
+		color:"#F73182"
+	})
+		.transformPoints("scale", 3.8)
+		.centerReg(panel5).mov(0,-10).sca(.35);
+	
+
+	let label;
+	const plane = new Container()
+		.addTo(panel5)
+		.animate({
+			time:4,
+			props:{path:pathPlane},
+			startPaused:false, // remove or set to true to not animate but only drag		
+			drag:true, // optional
+			call:()=>{
+				label = new Label("drag plane", 30, null, yellow).pos(100, 0, RIGHT, CENTER);
+			}
+		});	
+	new Pic("assets/monster.png")
+		.centerReg(plane)
+		.rot(90)
+        ;
+	
+    new Timeline().sca(.7).pos(0,20,CENTER,BOTTOM,panel5);
+
+                      //————————————————————————————————————————————————————————————————————————————————————————
+                        //page5
+
+                        const panel6 = new TextureActive({width:500,height:500,corner:30,color:blue});
+
+                        // Add backing picture to canvas
+	new Pic("assets/bgLast.png").center(panel6);
+
+
+STYLE = {
+    Rectangle:{
+        color:series(blue, red, pink), // ZIM VEE values allow you to pick from a series
+        width:4500,
+        height:100,
+        centerReg:{add:false} // centerReg usually adds to stage... but we let Button do that
+    }
+}
+
+const button = new Button({
+    label:new Label({
+        text:"You successfully invade the system",
+        font:"Madimi One",
+        size:30,
+        shiftHorizontal:12 // so it looks better on the Flare
+    }).reg(CENTER).center(panel6),
+    backing:new Rectangle(),
+    rollBacking:new Rectangle(),
+    waitBacking:new Rectangle(),
+    wait:"Now, you can get the NFT artwork", // this will change the text to a confirm text...
+    waitTime:1
+})
+    // .sca(5)
+    .alp(.3)
+    .centerReg(panel6); // so it rotates nicely when animated
+
+
+button.on("mousedown", e=>{		
+    if (button.waiting) {
+        button.clearWait();
+        
+        // button.label.animate({alpha:0,width:10}, .4);
+        button.enabled = false;
+        // button.waitBacking.color = black; // found it was sticking on yellow sometimes
+        
+        // animate the button
+        button.animate({
+            wait:.2,
+            props:{rotation:-190, y:"1650", alpha:1}, // "quotes" make the value relative
+            time:1,
+
+            call:() => {	
+                button.removeFrom();
+                
+                new Pic("assets/jokerBox.png").pos(0,0,CENTER,BOTTOM,panel6);
+               
+               			
+                const emitter = new Emitter({
+   obj:[
+    //   new Circle(20,null,darker,2),
+      
+     
+      new Label("Empty here!",40,'Madimi One'),
+      new Label("Just a joke",40,'Madimi One'),
+      new Label("Haha",25,'Madimi One')
+   ],
+   random:{color:[blue, green, pink, yellow, orange]},
+   interval:.1, // default
+   life:7,
+   decayTime:1, // default
+   sinkForce:.5,
+   gravity:0,
+   force:1,
+   cache:mobile(), // default
+})
+                    .addTo(panel6)
+                    .pos(0,-50,CENTER,BOTTOM)
+                    ;	
+                    
+                    
+                    
+                new Pic("assets/joker2.png").pos(0,200,CENTER,BOTTOM).addTo(panel6)
+                .animate({
+                        props:{y:180},
+                        time:.7,
+                        rewind:true,
+                        loop:true
+                    }).mov(0,-100);
+
+            } // end of animate call
+        }); // end animate
+    } // end confirm conditional 
+
+    
+}); // end button mousedown
+
+
+
+stage.update(); // this is needed to show any changes
+
+                 
+  
+  
+                        //————————————————————————————————————————————————————————————————————————————————————————
+
+
+
+
+                const three = new Three({
+                    width:window.innerWidth, 
+                    height:window.innerHeight, 
+                    cameraPosition:new THREE.Vector3(50,50,80),
+                    textureActive:true,
+                });
+
+                const renderer = three.renderer;
+                const scene = three.scene;
+                const camera = three.camera;
+
+                const controls = new OrbitControls(camera, renderer.domElement);
+
+                
+                const textureActives = new TextureActives([panel,panel2,panel3,panel4,panel5,panel6], THREE, three, renderer, scene, camera, controls);
+                
+
+
+
+                const geometry = new THREE.BoxGeometry(70, 70, 70);
+                const texture = new THREE.CanvasTexture(panel.canvas); 
+                const texture2 = new THREE.CanvasTexture(panel6.canvas); 
+                const texture3 = new THREE.CanvasTexture(panel3.canvas); 
+                const texture4 = new THREE.CanvasTexture(panel4.canvas); 
+                const texture5 = new THREE.CanvasTexture(panel5.canvas); 
+                const texture6 = new THREE.CanvasTexture(panel2.canvas); 
+                //const material = new THREE.MeshLambertMaterial({map:texture}); //map the texture to the material
+
+                 // MATERIAL
+            // create an array of materials to be used in a cube, one for each side
+            // if we put the camera inside then we want THREE.BackSide or THREE.DoubleSide (not THREE.FrontSide - default)
+            const material =[];
+            // order to add materials: x+,x-,y+,y-,z+,z-
+            material.push(new THREE.MeshBasicMaterial({map:texture}));
+            material.push(new THREE.MeshBasicMaterial({map:texture6}));
+            material.push(new THREE.MeshBasicMaterial({map:texture2}));
+            material.push(new THREE.MeshBasicMaterial({map:texture5}));
+            material.push(new THREE.MeshBasicMaterial({map:texture3}));
+            material.push(new THREE.MeshBasicMaterial({map:texture4}));//userName
+           
+
+
+
+                const cube = new THREE.Mesh(geometry, material);           
+                scene.add(cube);  
+                textureActives.addMesh(cube); 
+               // for metarials: phong,lambert,normal
+
+                    
+            // LIGHT
+            const light = new THREE.PointLight("#994CDB",.5*Math.PI);
+            light.position.set(100,200,100);
+            light.decay=0;//do not decay the light
+            scene.add(light);
+            
+            const light2 = new THREE.PointLight("0xffffff",1*Math.PI);
+            light2.position.set(-100,-200,-100);
+            scene.add(light2);
+            
+            const light3 = new THREE.AmbientLight("0xffffff",1*Math.PI);
+            scene.add(light3);
+
+                               // SKYBOX
+    const skyTexture = new THREE.TextureLoader().load("assets/skybox2.jpeg");
+    const skyBoxGeometry = new THREE.SphereGeometry(100000, 32, 32);
+    const skyBoxMaterial = new THREE.MeshBasicMaterial({map:skyTexture, side:THREE.BackSide});
+    const skyBox = new THREE.Mesh(skyBoxGeometry, skyBoxMaterial);
+    scene.add(skyBox);
+    stage.update(); 
+    
+
+
+};
+
+
+
+
+
+} // end ready
+        </script>
+        <meta name="viewport" content="width=device-width, user-scalable=no" />
+    </head>
+    <body>
+        <script>
+            var r=Math.round(Math.random()*1000000);
+            document.write('<img src=/cgi-bin/traffic_plus?company=danzen&page=zimzim_mini_pixel&r='+r+' width=1 height=1>');
+            
+            </script>
+    </body>
+</html>
